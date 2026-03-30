@@ -24,7 +24,7 @@ This project is a full-stack web application built using Django that helps stude
 - Track hours studied and study date
 - Compare planned vs actual effort
 
-### Progress onitoring
+### Progress Monitoring
 - Calculates completion percentage based on logged vs estimated hours
 - Displays progress indicators for each task
 - Shows total study time and overall statistics
