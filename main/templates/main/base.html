@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Study Analyzer</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="{% url 'home' %}" class="brand">AI Study Analyzer</a>
+        </div>
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="page-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

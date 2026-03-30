@@ -1,0 +1,124 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="center-box">
+
+    <h1>Dashboard</h1>
+
+    <div class="stats">
+        <p>Tasks Completed: {{ completed_tasks }}/{{ total_tasks }}</p>
+        <p>Total Study Hours: {{ total_hours }}</p>
+    </div>
+
+    <div class="dashboard-columns">
+
+        <div class="left-column">
+            <h2>Study Sessions</h2>
+            <a href="{% url 'add_study_session' %}" class="btn">Log Study Hours</a>
+
+            <ul>
+                {% for session in study_sessions %}
+                <li>
+                    <strong>
+                        {% if session.task %}
+                            {{ session.task.title }}
+                        {% else %}
+                            Unassigned Task
+                        {% endif %}
+                    </strong>
+
+                    <div class="session-details">
+                        <span>Hours: {{ session.hours_studied }}</span>
+                        <span>Date: {{ session.date }}</span>
+                    </div>
+
+                    <div class="session-actions">
+                        <a href="{% url 'edit_study_session' session.id %}" class="btn-small">Edit</a>
+                        <a href="{% url 'delete_study_session' session.id %}" class="btn-delete">Delete</a>
+                    </div>
+                </li>
+                {% empty %}
+                <li>No study sessions yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="right-column">
+            <h2>Tasks</h2>
+            <a href="{% url 'add_task' %}" class="btn">Add Task</a>
+
+            <ul>
+                {% for item in task_progress %}
+                <li>
+                    <strong>{{ item.task.title }}</strong>
+                    {% if item.task.completed %} - ✅ Completed{% endif %}
+
+                    <div class="task-details">
+                        <div class="left">
+                            <p>Subject: {{ item.task.subject }}</p>
+                            <p>Difficulty: {{ item.task.difficulty }}</p>
+                        </div>
+                        <div class="right">
+                            <p>Deadline: {{ item.task.deadline }}</p>
+                            <p>Estimated Hours: {{ item.task.estimated_hours }}</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"
+                                 style="--progress: {{ item.percentage|default:0|floatformat:0 }}%; width: var(--progress);">
+                            </div>
+                        </div>
+                        <small>{{ item.hours_done }}/{{ item.task.estimated_hours }} hours completed</small>
+                    </div>
+
+                    <div class="task-actions">
+                        <a href="{% url 'toggle_task' item.task.id %}" class="btn-small">Toggle Done</a>
+                        <a href="{% url 'edit_task' item.task.id %}" class="btn-small">Edit</a>
+                        <a href="{% url 'delete_task' item.task.id %}" class="btn-delete">Delete</a>
+                    </div>
+                </li>
+                {% empty %}
+                <li>No tasks yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="ai-box">
+        <h2>AI Recommendations</h2>
+        <ul>
+            {% for rec in recommendations %}
+                <li>{{ rec }}</li>
+            {% empty %}
+                <li>No recommendations yet</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="ai-box">
+        <h2>Smart Daily Plan</h2>
+        <ul>
+            {% for item in smart_schedule %}
+                <li>{{ item.task }} → {{ item.hours }} hours today</li>
+            {% empty %}
+                <li>No plan available</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="ai-box">
+        <h2>Warnings</h2>
+        <ul>
+            {% for warn in warnings %}
+                <li>{{ warn }}</li>
+            {% empty %}
+                <li>No risks detected</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+{% endblock %}

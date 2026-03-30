@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="center-box">
+    <h2>Log Study Session</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-2">
+            <label for="id_task">Select Task</label><br>
+            {{ form.task }}
+        </div>
+
+        <div class="mb-2">
+            <label for="id_hours_studied">Hours Studied</label><br>
+            {{ form.hours_studied }}
+        </div>
+
+        <button class="btn mt-2" type="submit">Save Session</button>
+    </form>
+
+    <a href="{% url 'dashboard' %}" class="mt-2">Back to Dashboard</a>
+</div>
+{% endblock %}
